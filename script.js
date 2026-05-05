@@ -32,11 +32,7 @@ function createMessage(time, sender, message, side) {
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("message", side);
 
-  msgDiv.innerHTML = `
-    <b>${sender}</b><br>
-    ${message}
-    <div class="time">${time}</div>
-  `;
-
-  chatDiv.appendChild(msgDiv);
-}
+msgDiv.innerHTML = `
+  <div>${message}</div>
+  <div class="time">${time}</div>
+`;
