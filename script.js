@@ -5,7 +5,7 @@ document.getElementById("fileInput").addEventListener("change", function (e) {
   const reader = new FileReader();
 
   reader.onload = function (event) {
-    chatDiv.innerHTML = ""; // clear old chat
+    chatDiv.innerHTML = "";
     parseChat(event.target.result);
   };
 
@@ -15,26 +15,44 @@ document.getElementById("fileInput").addEventListener("change", function (e) {
 function parseChat(text) {
   const lines = text.split("\n");
 
+  let currentMessage = "";
+
   lines.forEach(line => {
-    // Match WhatsApp format
-    const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4},\s[\d:apm\s]+)\s-\s(.*?):\s([\s\S]*)$/);
+    // Detect new message line
+    const isNewMsg = line.match(/^\d{1,2}\/\d{1,2}\/\d{2,4},/);
 
-    if (match) {
-      const time = match[1];
-      let sender = match[2].trim();
-      const message = match[3];
-
-      if (!sender) sender = "Other";
-
-      let side = "left";
-
-      if (sender.toLowerCase().includes("pagluu")) {
-        side = "right";
-      }
-
-      createMessage(time, message, side);
+    if (isNewMsg) {
+      processMessage(currentMessage);
+      currentMessage = line;
+    } else {
+      // Multiline message support
+      currentMessage += " " + line;
     }
   });
+
+  processMessage(currentMessage);
+}
+
+function processMessage(line) {
+  if (!line) return;
+
+  const match = line.match(/^(.+?) - (.*?): (.*)$/);
+
+  if (!match) return;
+
+  const time = match[1];
+  let sender = match[2].trim();
+  const message = match[3];
+
+  if (!sender) sender = "Other";
+
+  let side = "left";
+
+  if (sender.toLowerCase().includes("pagluu")) {
+    side = "right";
+  }
+
+  createMessage(time, message, side);
 }
 
 function createMessage(time, message, side) {
