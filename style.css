@@ -1,0 +1,40 @@
+body {
+  font-family: Arial;
+  background-color: #e5ddd5;
+  margin: 0;
+}
+
+.topbar {
+  background-color: #075E54;
+  color: white;
+  padding: 15px;
+}
+
+#chat {
+  height: 90vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.message {
+  max-width: 60%;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 8px;
+}
+
+.left {
+  background: white;
+}
+
+.right {
+  background: #dcf8c6;
+  margin-left: auto;
+}
+
+.time {
+  font-size: 10px;
+  color: gray;
+}
